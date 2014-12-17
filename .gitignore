@@ -5,7 +5,7 @@ ehthumbs.db
 # Folder config file
 Desktop.ini
 framework
-assets
+/assets
 protected/runtime
 
 # Recycle Bin used on file shares
