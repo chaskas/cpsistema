@@ -16,7 +16,7 @@
         <div class="alert alert-danger display-hide">
             <button class="close" data-close="alert"></button>
 			<span>
-			Enter any username and password. </span>
+			Ingrese su usuario y clave </span>
         </div>
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'Usuario o correo',  array('class'=>'control-label visible-ie8 visible-ie9')); ?>
