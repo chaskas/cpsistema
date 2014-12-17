@@ -49,12 +49,12 @@ class ProductosController extends Controller
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView($id)
+   /* public function actionView($id)
     {
-        $this->render('view', array(
-            'model' => $this->loadModel($id),
+        $this->render('index', array(
+            //'model' => $this->loadModel($id),
         ));
-    }
+    }*/
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
@@ -83,7 +83,7 @@ class ProductosController extends Controller
         if (isset($_POST['Productos'])) {
             $model->attributes = $_POST['Productos'];
             if ($model->save())
-                $this->redirect(array('view', 'id' => $model->idProductos));
+                $this->redirect(array('index'));
         }
 
         $this->render('create', array(
@@ -106,7 +106,7 @@ class ProductosController extends Controller
         if (isset($_POST['Productos'])) {
             $model->attributes = $_POST['Productos'];
             if ($model->save())
-                $this->redirect(array('view', 'id' => $model->idProductos));
+                $this->redirect(array('index'));
         }
 
         $this->render('update', array(
@@ -127,7 +127,7 @@ class ProductosController extends Controller
 
 // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
             if (!isset($_GET['ajax']))
-                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
         } else
             throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
     }
@@ -137,9 +137,14 @@ class ProductosController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('Productos');
-        $this->render('index', array(
-            'dataProvider' => $dataProvider,
+        $model = new Productos('search');
+        $model->unsetAttributes();  // clear any default values
+        $model->cruge_user_Prov_id = Yii::app()->user->id; ;
+        if (isset($_GET['Productos']))
+            $model->attributes = $_GET['Productos'];
+
+        $this->render('admin', array(
+            'model' => $model,
         ));
     }
 
@@ -150,6 +155,7 @@ class ProductosController extends Controller
     {
         $model = new Productos('search');
         $model->unsetAttributes();  // clear any default values
+
         if (isset($_GET['Productos']))
             $model->attributes = $_GET['Productos'];
 
@@ -256,16 +262,6 @@ class ProductosController extends Controller
     }
 
 
-// on your controller
-// example code for action rendering the relational data
-    public function actionDescuentos()
-    {
-        // partially rendering "_relational" view
-        $this->renderPartial('_descuentos', array(
-            'id' => Yii::app()->getRequest()->getParam('id'),
-            'gridDataProvider' => $this->getGridDataProvider(),
-            'gridColumns' => $this->getGridColumns()
-        ));
-    }
+
 
 }

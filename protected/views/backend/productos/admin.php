@@ -4,7 +4,7 @@
 
 $controlador = Yii::app()->controller->id;
 $this->breadcrumbs=array(
-	'Productos'=>array('admin'),
+	'Productos'=>array('index'),
 	'Administrar'
 
 );
@@ -280,10 +280,28 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
 
                 )
             ),
+/*            array(
+                'name'=>'Precio Unitario',
+               // 'value'=>'CHtml::link($data->username,Yii::app()->createUrl("user/view",array("id"=>$data->PrecioNormal)))',
+                'value' => Productos::model()->columnaPrecio('$data->idProductos')
+
+
+            ),*/
+
             array(
-                'name'=>'PrecioNormal',
-                'value'=>'$data->PrecioNormal',
+                'class' => 'booster.widgets.TbPrecioColumn',
+                'precioAction' => $controlador.'/toggle',
+                'name' => 'Precio Normal',
+//                'headerHtmlOptions' => array('style' => 'width:100px;text-align: center;'),
+                'checkedIcon' => 'check-circle',
+                'uncheckedIcon' => 'times-circle',
+                'header' => 'PrecioNormal',
+                'checkedButtonLabel' => 'Despublicar',
+                'uncheckedButtonLabel' => 'Publicar'
             ),
+
+
+
 
             'Stock',
             array(
@@ -304,9 +322,9 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
                 'value'=>"Yii::app()->dateFormatter->formatDateTime(\$data->Actualizado, 'medium', 'short')",
             ),
             array(
-                'htmlOptions' => array(),
+                'htmlOptions' => array('style' => 'width:150px;text-align: center;'),
                 'class' => 'booster.widgets.TbButtonColumnAwesome',
-                'template' => '{update}{view}',
+                'template' => '{update}',
                 'buttons' => array(
                     'update' => array(
                         'label' => 'Editar Productos',
@@ -314,9 +332,11 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
                         'options' => array(
                             'class' => 'btn btn-small',
                         ),
-                    ),
+                    ) ,
+
+
+                    )
                 ),
-            ),
             array(
                 'class' => 'booster.widgets.TbToggleColumnAwesome',
                 'toggleAction' => $controlador.'/toggle',

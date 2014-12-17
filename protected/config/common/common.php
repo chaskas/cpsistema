@@ -108,6 +108,9 @@ return array(
        'booster' => Array(
             'class' => 'ext.booster.components.Booster',
         ),
+        'FrontendUrlManager'=>array(
+            'class'=>'application.components.FrontendUrlManager',
+        ),
 
        /* // yiiwheels configuration
         'yiiwheels' => array(

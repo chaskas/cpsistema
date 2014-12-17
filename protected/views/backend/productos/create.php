@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-    'Productos'=>array('admin'),
+    'Productos'=>array('index'),
     'Nuevo Producto',
 );
 $this->pageTitle = 'Crear Producto';
@@ -43,7 +43,7 @@ $menuMas = array();
                 'htmlOptions' => array('class' => 'red-flamingo btn-circle'),
                 'label'=>'Cancelar',
                 'icon' => 'ban',
-                'url' =>  $this->createUrl('productos/admin'),
+                'url' =>  $this->createUrl('productos'),
 
 
             )); ?>

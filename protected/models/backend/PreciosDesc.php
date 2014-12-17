@@ -15,6 +15,9 @@
  */
 class PreciosDesc extends CActiveRecord
 {
+
+public $productos;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -48,6 +51,8 @@ class PreciosDesc extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+
+            'productos' => array(self::BELONGS_TO, 'Productos', 'Productos_id'),
 		);
 	}
 
@@ -57,14 +62,15 @@ class PreciosDesc extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idPreciosDesc' => 'Id Precios Desc',
-			'FechaIni' => 'Fecha Ini',
-			'FechaFin' => 'Fecha Fin',
-			'CantMin' => 'Cant Min',
-			'CantMax' => 'Cant Max',
+			'idPreciosDesc' => 'ID',
+			'FechaIni' => 'Fecha Comienzo',
+			'FechaFin' => 'Fecha Termino',
+			'CantMin' => 'Ped  Minima',
+			'CantMax' => 'Ped Maximo',
 			'Precio' => 'Precio',
-			'Productos_id' => 'Productos',
-			'TipoDesc_id' => 'Tipo Desc',
+			'Productos_id' => '',
+			'TipoDesc_id' => 'Tipo  de Precio',
+         //   'Productos.Nombre_Producto' =>'Nombre Producto'
 		);
 	}
 

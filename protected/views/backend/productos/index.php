@@ -1,5 +1,5 @@
 <?php
-$this->breadcrumbs=array(
+/*$this->breadcrumbs=array(
 	'Productoses',
 );
 
@@ -14,4 +14,4 @@ array('label'=>'Manage Productos','url'=>array('admin')),
 <?php $this->widget('booster.widgets.TbListView',array(
 'dataProvider'=>$dataProvider,
 'itemView'=>'_view',
-)); ?>
+)); */?>

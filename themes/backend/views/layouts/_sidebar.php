@@ -20,7 +20,7 @@
          array(
              'label' => '<i class="icon-social-dropbox"></i><span class="title">Productos</span><span class="arrow "></span>',
              'encodeLabel' => false,
-             'url' => array('productos/admin'),
+             'url' => array('productos/index'),
              'activeCssClass' => 'active open',
              'submenuOptions' => array('class' => 'sub-menu', 'activateParents' => true),
              'items' => array(
@@ -35,13 +35,13 @@
          array(
              'label' => '<i class="icon-basket-loaded"></i><span class="title">Órdenes de Compra</span><span class="arrow "></span>',
              'encodeLabel' => false,
-             'url' => array('OrdenCompra/admin'),
+             'url' => array('OrdenCompra/index'),
              'activeCssClass' => 'active open'
          ),
          array(
              'label' => '<i class="icon-call-in"></i><span class="title">Contactos</span><span class="arrow "></span>',
              'encodeLabel' => false,
-             'url' => array('Contactos/admin'),
+             'url' => array('Contactos'),
              'activeCssClass' => 'active open',
              'submenuOptions' => array('class' => 'sub-menu', 'activateParents' => true,),
              'items' => array(
@@ -63,13 +63,13 @@
          array(
              'label' => '<i class="icon-bar-chart"></i><span class="title">Informmes</span><span class="arrow "></span>',
              'encodeLabel' => false,
-             'url' => array('informes/inedex'),
+             'url' => array('informes/index'),
              'activeCssClass' => 'active open'
          ),
          array(
              'label' => '<i class="icon-badge"></i><span class="title">Evaluaciones</span><span class="arrow "></span>',
              'encodeLabel' => false,
-             'url' => array('informes/inedex'),
+             'url' => array('evaluaciones/index'),
              'activeCssClass' => 'active open'),
 
      )

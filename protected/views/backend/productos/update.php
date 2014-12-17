@@ -1,7 +1,7 @@
 
 <?php
 $this->breadcrumbs=array(
-    'Productos'=>array('admin'),
+    'Productos'=>array('index'),
      'Editar',
 );
 $this->pageTitle = 'Editar Productos';
@@ -47,7 +47,7 @@ $menuMas=array(
             'htmlOptions' => array('class' => 'red-flamingo btn-circle'),
             'label'=>'Cancelar',
             'icon' => 'ban',
-            'url' =>  $this->createUrl('productos/admin'),
+            'url' =>  $this->createUrl('productos'),
 
 
         )); ?>

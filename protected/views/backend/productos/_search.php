@@ -3,7 +3,7 @@
 	'method'=>'get',
 )); ?>
 
-		<?php echo $form->textFieldGroup($model,'idProductos',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
+		<?php //echo $form->textFieldGroup($model,'idProductos',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
 
 		<?php echo $form->textFieldGroup($model,'Codigo',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>255)))); ?>
 
@@ -25,25 +25,25 @@
 
 		<?php echo $form->textFieldGroup($model,'Stock',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
 
-		<?php echo $form->textFieldGroup($model,'URLCatalogo',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>255)))); ?>
+		<?php //echo $form->textFieldGroup($model,'URLCatalogo',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>255)))); ?>
 
 		<?php echo $form->textFieldGroup($model,'PrecioNormal',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
 
 		<?php echo $form->textFieldGroup($model,'PedMin',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
 
-		<?php echo $form->textFieldGroup($model,'Visitado',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
+		<?php //echo $form->textFieldGroup($model,'Visitado',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
 
-		<?php echo $form->textFieldGroup($model,'Publicado',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
+		<?php // echo $form->textFieldGroup($model,'Publicado',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
 
-		<?php echo $form->textFieldGroup($model,'Borrado',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
+		<?php //echo $form->textFieldGroup($model,'Borrado',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
 
-		<?php echo $form->textFieldGroup($model,'Creado',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
+		<?php //echo $form->textFieldGroup($model,'Creado',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
 
-		<?php echo $form->textFieldGroup($model,'Actualizado',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
+		<?php //echo $form->textFieldGroup($model,'Actualizado',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
 
-		<?php echo $form->textFieldGroup($model,'EstadoStock_id',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
+		<?php //echo $form->textFieldGroup($model,'EstadoStock_id',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
 
-		<?php echo $form->textFieldGroup($model,'cruge_user_Prov_id',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
+		<?php //echo $form->textFieldGroup($model,'cruge_user_Prov_id',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
 
 		<?php echo $form->textFieldGroup($model,'Categorias_id',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
 

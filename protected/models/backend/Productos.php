@@ -39,6 +39,10 @@
  */
 class Productos extends CActiveRecord
 {
+
+    public $verprecio;
+
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -72,7 +76,7 @@ class Productos extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('Codigo, Nombre_Producto, PrecioNormal, EstadoStock_id, cruge_user_Prov_id, Categorias_id', 'required'),
+			array('Codigo, Nombre_Producto, PrecioNormal, EstadoStock_id, Categorias_id', 'required'),
 			array('Visitado, Publicado, Stock, Borrado, EstadoStock_id, cruge_user_Prov_id, Categorias_id', 'numerical', 'integerOnly'=>true),
 			array('Codigo, Nombre_Producto, URLCatalogo', 'length', 'max'=>255),
 			array('Marca, Modelo, CodModelo, Tamano, Capacidad', 'length', 'max'=>60),
@@ -82,6 +86,13 @@ class Productos extends CActiveRecord
                 'min'=>1,
 
             ),
+
+            array('cruge_user_Prov_id', 'unsafe', 'on'=>'update'),
+
+            array('cruge_user_Prov_id','default',
+                'value'=> Yii::app()->user->id,
+                'setOnEmpty'=>false,'on'=>'insert'),
+
             array('Actualizado','default',
                 'value'=>new CDbExpression('NOW()'),
                 'setOnEmpty'=>false,'on'=>'update'),
@@ -179,7 +190,7 @@ class Productos extends CActiveRecord
 		$criteria->compare('Capacidad',$this->Capacidad,true);
 		$criteria->compare('TiempoDespacho',$this->TiempoDespacho);
 		$criteria->compare('Stock',$this->Stock);
-		$criteria->compare('URLCatalogo',$this->URLCatalogo,true);
+	//	$criteria->compare('URLCatalogo',$this->URLCatalogo,true);
 		$criteria->compare('PrecioNormal',$this->PrecioNormal);
 		$criteria->compare('PedMin',$this->PedMin);
 		$criteria->compare('Visitado',$this->Visitado);
@@ -195,6 +206,26 @@ class Productos extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+
+
+    public function TieneDescuentos ($id) {
+
+        $criteria=new CDbCriteria;
+        $criteria->select='CantMin, CantMax, Precio,TipoDesc_id';  // only select the 'title' column
+        $criteria->condition='(NOW() BETWEEN FechaIni AND FechaFin) AND Productos_id = :pID AND Publicado = :P AND Borrado = :b';
+        $criteria->params=array(':pID'=>$id,':P'=>1,':b'=>0);
+        $prec=PreciosDesc::model()->findAll($criteria);
+
+                return $prec;
+
+
+    }
+
+
+
+
+
 
 	/**
 	 * Returns the static model of the specified AR class.
