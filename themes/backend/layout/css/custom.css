@@ -108,3 +108,8 @@ select>option:hover
     }
 }
 
+
+.page-sidebar .page-sidebar-menu > li.active > a, .page-sidebar .page-sidebar-menu .sub-menu > li.active > a {
+
+    background: #101010 !important;
+}

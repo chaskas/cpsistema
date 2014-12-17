@@ -210,46 +210,8 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
 </div><!-- search-form -->
 
 <div class="portlet-body">
+
     <?php
-
-    $groupGridColumns = $gridColumns;
-    $groupGridColumns[] = array(
-        'name' => 'firstLetter',
-        'value' => 'substr($data->firstName, 0, 1)',
-        'headerHtmlOptions' => array('style'=>'display:none'),
-        'htmlOptions' =>array('style'=>'display:none')
-    );
-
-
-
-
-    // on your view
-    $this->widget('booster.widgets.TbExtendedGridView', array(
-        'filter'=>$person,
-        'type'=>'striped bordered',
-        'dataProvider' => $gridDataProvider,
-        'template' => "{items}",
-        'columns' => array_merge(array(
-            array(
-                'class'=>'booster.widgets.TbRelationalColumn',
-                'name' => 'firstLetter',
-                'url' => $this->createUrl('productos/descuentos'),
-                'value'=> '"test-subgrid"',
-                'afterAjaxUpdate' => 'js:function(tr,rowid,data){
-                bootbox.alert("I have afterAjax events too!
-This will only happen once for row with id: "+rowid);
-            }'
-            )
-        ),$gridColumns),
-    ));
-
-
-
-
-
-
-    /*
-
     $dataProvider = $model->search();
     $dataProvider->pagination = array('pageSize'=>20);
 
