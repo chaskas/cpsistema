@@ -43,7 +43,7 @@ $menuMas = array();
                 'htmlOptions' => array('class' => 'red-flamingo btn-circle'),
                 'label'=>'Cancelar',
                 'icon' => 'ban',
-                'url' =>  $this->createUrl('productos'),
+                'url' =>  $this->createUrl('productos/index'),
 
 
             )); ?>
