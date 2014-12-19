@@ -12,12 +12,13 @@
  * @property integer $Precio
  * @property integer $Productos_id
  * @property integer $TipoDesc_id
+ * @property integer $Borrado
  */
 class PreciosDesc extends CActiveRecord
 {
 
 public $productos;
-
+public $rango;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -34,13 +35,16 @@ public $productos;
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('Precio, Productos_id, TipoDesc_id', 'required'),
-			array('CantMin, CantMax, Precio, Productos_id, TipoDesc_id', 'numerical', 'integerOnly'=>true),
+			array('Precio, Productos_id, TipoDesc_id,', 'required'),
+			array('CantMin, CantMax, Borrado,, Precio, Productos_id, TipoDesc_id', 'numerical', 'integerOnly'=>true),
 			array('FechaIni, FechaFin', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idPreciosDesc, FechaIni, FechaFin, CantMin, CantMax, Precio, Productos_id, TipoDesc_id', 'safe', 'on'=>'search'),
-		);
+			array('idPreciosDesc, FechaIni, FechaFin, Borrado, CantMin, CantMax, Precio, Productos_id, TipoDesc_id', 'safe', 'on'=>'search'),
+            array('CantMin+Productos_id+TipoDesc_id', 'application.extensions.uniqueMultiColumnValidator','message'=> 'Ya existe un precio con la cantidad minima seleccionada'),
+            array('CantMin','compare','compareAttribute'=>'CantMax','operator'=>'<=','message'=>'El pedido minimo no puede ser superior al pedido máximo'),
+
+        );
 	}
 
 	/**
@@ -65,11 +69,13 @@ public $productos;
 			'idPreciosDesc' => 'ID',
 			'FechaIni' => 'Fecha Comienzo',
 			'FechaFin' => 'Fecha Termino',
-			'CantMin' => 'Ped  Minima',
-			'CantMax' => 'Ped Maximo',
+			'CantMin' => 'Compra Min',
+			'CantMax' => 'Compra Max',
 			'Precio' => 'Precio',
-			'Productos_id' => '',
-			'TipoDesc_id' => 'Tipo  de Precio',
+            'Borrado' => 'Borrado',
+			'Productos_id' => 'Productos_id',
+			'TipoDesc_id' => 'Tipo',
+            'rango' => 'Rango duración de la oferta',
          //   'Productos.Nombre_Producto' =>'Nombre Producto'
 		);
 	}
@@ -100,6 +106,7 @@ public $productos;
 		$criteria->compare('Precio',$this->Precio);
 		$criteria->compare('Productos_id',$this->Productos_id);
 		$criteria->compare('TipoDesc_id',$this->TipoDesc_id);
+        $criteria->compare('Borrado',$this->Borrado);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -33,7 +33,7 @@ class EDateRangeSearchBehavior extends CActiveRecordBehavior
     private function formatDate($date, $hora) {
 
         $dateString = str_replace('/', '-', $date)." ".$hora;
-        $newDateString =  date("Y-m-d H:i:s", strtotime($dateString)); ;
+        $newDateString =  date("Y-m-d H:i:s", strtotime($dateString));
 
         return $newDateString;
 

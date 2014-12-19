@@ -15,6 +15,7 @@ class PreciosDescController extends Controller
     {
         return array(
             'accessControl', // perform access control for CRUD operations
+            array('CrugeAccessControlFilter')
         );
     }
 
@@ -31,7 +32,8 @@ class PreciosDescController extends Controller
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update'),
+                'actions' => array('create', 'update','toggle', 'EditableSaver', 'PublicarChecked',
+                    'DespublicarChecked','BorrarChecked','RestaurarChecked'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -74,20 +76,62 @@ class PreciosDescController extends Controller
      */
     public function actionCreate()
     {
-        $model = new PreciosDesc;
 
-// Uncomment the following line if AJAX validation is needed
-// $this->performAjaxValidation($model);
+        if (isset($_GET['pid'])) {
 
-        if (isset($_POST['PreciosDesc'])) {
-            $model->attributes = $_POST['PreciosDesc'];
-            if ($model->save())
-                $this->redirect(array('view', 'id' => $model->idPreciosDesc));
+            $model = new PreciosDesc('search');
+            $model->unsetAttributes();  // clear any default values
+            if (isset($_GET['PreciosDesc']))
+                $model->attributes = $_GET['PreciosDesc'];
+
+            $user = Productos::model()->findByPk($_GET['pid']);
+            if (is_null($user)) {
+                $this->render('error', array());
+                Yii::app()->end();
+            }
+            if ($user->cruge_user_Prov_id == Yii::app()->user->id) {
+
+                $model = new PreciosDesc;
+                $model->FechaIni = date("d/m/Y H:i");
+                $model->Productos_id = $_GET['pid'];
+
+                if (isset($_POST['PreciosDesc'])) {
+                    $model->attributes = $_POST['PreciosDesc'];
+
+                    if ($model->TipoDesc_id == 2) {
+                        $fechas = explode(" - ", $_POST['PreciosDesc']['rango']);
+                        $dateStringIn = str_replace('/', '-', $fechas[0]);
+                        $dateStringFn = str_replace('/', '-', @$fechas[1]);
+                        $model->FechaIni = date("Y-m-d H:i:s", strtotime($dateStringIn));
+                        $model->FechaFin = date("Y-m-d H:i:s", strtotime($dateStringFn));
+
+                    } else {
+                        $model->FechaIni = date("Y-m-d H:i:s");
+                        $model->FechaFin = $model->FechaIni;
+                        $model->CantMax = $model->CantMin;
+
+                    }
+                    //   $model->attributes
+                    if ($model->save())
+                        $this->redirect(array('index', 'pid' => $model->Productos_id));
+                }
+
+                $this->render('create', array(
+                    'model' => $model,
+                ));
+
+
+
+            } else {
+                $this->render('error', array());
+                Yii::app()->end();
+            }
+
+
+        } else {
+            $this->render('error', array());
         }
 
-        $this->render('create', array(
-            'model' => $model,
-        ));
     }
 
     /**
@@ -97,22 +141,46 @@ class PreciosDescController extends Controller
      */
     public function actionUpdate($id)
     {
+
+
         $model = $this->loadModel($id);
+        $model->FechaIni = date("d/m/Y H:i");
+        $user = Productos::model()->findByPk($model->Productos_id);
+        if ($user->cruge_user_Prov_id == Yii::app()->user->id) {
 
 // Uncomment the following line if AJAX validation is needed
 // $this->performAjaxValidation($model);
 
+
+
+
         if (isset($_POST['PreciosDesc'])) {
             $model->attributes = $_POST['PreciosDesc'];
+
+            if ($model->TipoDesc_id == 2){
+                $fechas = explode(" - ",$_POST['PreciosDesc']['rango']);
+                $dateStringIn = str_replace('/', '-', $fechas[0]);
+                $dateStringFn = str_replace('/', '-', @$fechas[1]);
+                $model->FechaIni =  date("Y-m-d H:i:s", strtotime($dateStringIn));
+                $model->FechaFin =  date("Y-m-d H:i:s", strtotime($dateStringFn));
+            } else {
+                $model->FechaIni = date("d/m/Y H:i");
+                $model->FechaFin = $model->FechaIni;
+                $model->CantMax = $model->CantMin;
+            }
+
             if ($model->save())
-                $this->redirect(array('view', 'id' => $model->idPreciosDesc));
+                $this->redirect(array('index', 'pid' => $model->Productos_id));
         }
 
         $this->render('update', array(
             'model' => $model,
         ));
-    }
-
+    }     else {
+            $this->render('error', array());
+            Yii::app()->end();
+        }
+}
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -136,19 +204,32 @@ class PreciosDescController extends Controller
      */
     public function actionIndex()
     {
-        $model = new PreciosDesc('search');
-        $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['PreciosDesc']))
-            $model->attributes = $_GET['PreciosDesc'];
+        if (isset($_GET['pid'])) {
 
-       $user = Productos::model()->findByPk( $_GET['id']);
+            $model = new PreciosDesc('search');
+            $model->unsetAttributes();  // clear any default values
+            if (isset($_GET['PreciosDesc']))
+                $model->attributes = $_GET['PreciosDesc'];
+            $user = Productos::model()->findByPk($_GET['pid']);
 
-        if (isset( $_GET['id']) && $user->cruge_user_Prov_id == Yii::app()->user->id) {
+            if (is_null($user)) {
+                $this->render('error', array());
+                Yii::app()->end();
+            }
 
-            $model->Productos_id = $_GET['id'];
-            $this->render('admin', array(
-                'model' => $model,
-            ));
+
+                if ($user->cruge_user_Prov_id == Yii::app()->user->id) {
+                    $model->Productos_id = $_GET['pid'];
+                    $this->render('admin', array(
+                        'model' => $model,
+                    )
+                    );
+                } else {
+                    $this->render('error', array());
+                    Yii::app()->end();
+                }
+
+
         } else {
             $this->render('error', array());
         }
@@ -158,26 +239,113 @@ class PreciosDescController extends Controller
      * Manages all models.
      */
     public function actionAdmin()
-    {
-        $model = new PreciosDesc('search');
-        $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['PreciosDesc']))
-            $model->attributes = $_GET['PreciosDesc'];
+            {
+                $model = new PreciosDesc('search');
+                $model->unsetAttributes();  // clear any default values
+                if (isset($_GET['PreciosDesc']))
+                    $model->attributes = $_GET['PreciosDesc'];
 
-        $this->render('admin', array(
-            'model' => $model,
-        ));
-    }
+                $this->render('admin', array(
+                    'model' => $model,
+                ));
+            }
 
     /**
      * Performs the AJAX validation.
      * @param CModel the model to be validated
      */
     protected function performAjaxValidation($model)
+            {
+                if (isset($_POST['ajax']) && $_POST['ajax'] === 'precios-desc-form') {
+                    echo CActiveForm::validate($model);
+                    Yii::app()->end();
+                }
+            }
+
+
+    public function actions()
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'precios-desc-form') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
+        return array(
+            'toggle' => array(
+                'class'=>'booster.actions.TbToggleAction',
+                'modelName' => 'PreciosDesc',
+            )
+        );
     }
+
+    public function actionEditableSaver()
+    {
+        Yii::import('application.extensions.booster.components.TbEditableSaver');
+        $es = new TbEditableSaver('PreciosDesc');
+        $es->onBeforeUpdate = function($event) {
+        //    $event->sender->setAttribute('Actualizado', date('Y-m-d H:i:s'));
+        };
+        $es->update();
+    }
+
+    public function actionBorrarChecked(){
+                if(Yii::app()->request->getIsAjaxRequest())
+                {
+
+                    if (isset($_POST['ids'])) :
+                        $checkedIDs = explode(",",$_POST['ids']);
+                    endif;
+
+                    foreach($checkedIDs as $id){
+                        $prod=PreciosDesc::model()->findByPk($id);
+                        $prod->Borrado=1;
+                        $prod->save();
+                    }
+                }
+            }
+
+    public function actionPublicarChecked(){
+                if(Yii::app()->request->getIsAjaxRequest())
+                {
+
+                    if (isset($_POST['ids'])) :
+                        $checkedIDs = explode(",",$_POST['ids']);
+                    endif;
+
+                    foreach($checkedIDs as $id){
+                        $prod=PreciosDesc::model()->findByPk($id);
+                        $prod->Publicado=1;
+                        $prod->save();
+                    }
+                }
+            }
+
+    public function actionDespublicarChecked(){
+                if(Yii::app()->request->getIsAjaxRequest())
+                {
+
+                    if (isset($_POST['ids'])) :
+                        $checkedIDs = explode(",",$_POST['ids']);
+                    endif;
+
+                    foreach($checkedIDs as $id){
+                        $prod=PreciosDesc::model()->findByPk($id);
+                        $prod->Publicado=0;
+                        $prod->save();
+                    }
+                }
+            }
+
+    public function actionRestaurarChecked(){
+                if(Yii::app()->request->getIsAjaxRequest())
+                {
+
+                    if (isset($_POST['ids'])) :
+                        $checkedIDs = explode(",",$_POST['ids']);
+                    endif;
+
+                    foreach($checkedIDs as $id){
+                        $prod=PreciosDesc::model()->findByPk($id);
+                        $prod->Borrado=0;
+                        $prod->save();
+                    }
+                }
+            }
+
 }
+

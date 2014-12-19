@@ -29,7 +29,10 @@
                 <!-- BEGIN PAGE CONTENT-->
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
-                        <div class="portlet light" id="<?php echo Yii::app()->controller->id;?>-portlet"> <?php echo $content; ?></div>
+                        <div class="portlet light" id="<?php echo Yii::app()->controller->id;?>-portlet"> <?php echo $content; ?>
+                            <?php echo Yii::app()->user->ui->displayErrorConsole(); ?>
+
+                        </div>
                     </div>
                 </div>
 

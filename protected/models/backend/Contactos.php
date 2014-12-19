@@ -5,16 +5,17 @@
  *
  * The followings are the available columns in table 'contactos':
  * @property integer $idContactos
- * @property string $Contactos_Mensaje
- * @property string $Contactos_Asunto
- * @property integer $Contactos_Leido
- * @property string $Contactos_Fecha
- * @property integer $cruge_user_idProv
- * @property integer $cruge_user_idEmpr
+ * @property string $Asunto
+ * @property string $Mensaje
+ * @property integer $Leido
+ * @property integer $Atendido
+ * @property string $Creado
+ * @property integer $cruge_user_Prov_id
+ * @property integer $cruge_user_Empr_id
  *
  * The followings are the available model relations:
- * @property CrugeUser $crugeUserIdProv
- * @property CrugeUser $crugeUserIdEmpr
+ * @property CrugeUser $crugeUserProv
+ * @property CrugeUser $crugeUserEmpr
  */
 class Contactos extends CActiveRecord
 {
@@ -34,13 +35,13 @@ class Contactos extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('cruge_user_idProv, cruge_user_idEmpr', 'required'),
-			array('Contactos_Leido, cruge_user_idProv, cruge_user_idEmpr', 'numerical', 'integerOnly'=>true),
-			array('Contactos_Asunto', 'length', 'max'=>255),
-			array('Contactos_Mensaje, Contactos_Fecha', 'safe'),
+			array('cruge_user_Prov_id, cruge_user_Empr_id', 'required'),
+			array('Leido, Atendido, cruge_user_Prov_id, cruge_user_Empr_id', 'numerical', 'integerOnly'=>true),
+			array('Asunto', 'length', 'max'=>255),
+			array('Mensaje, Creado', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idContactos, Contactos_Mensaje, Contactos_Asunto, Contactos_Leido, Contactos_Fecha, cruge_user_idProv, cruge_user_idEmpr', 'safe', 'on'=>'search'),
+			array('idContactos, Asunto, Mensaje, Leido, Atendido, Creado, cruge_user_Prov_id, cruge_user_Empr_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,8 +53,8 @@ class Contactos extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'crugeUserIdProv' => array(self::BELONGS_TO, 'CrugeUser', 'cruge_user_idProv'),
-			'crugeUserIdEmpr' => array(self::BELONGS_TO, 'CrugeUser', 'cruge_user_idEmpr'),
+			'crugeUserProv' => array(self::BELONGS_TO, 'CrugeUser', 'cruge_user_Prov_id'),
+			'crugeUserEmpr' => array(self::BELONGS_TO, 'CrugeUser', 'cruge_user_Empr_id'),
 		);
 	}
 
@@ -64,12 +65,13 @@ class Contactos extends CActiveRecord
 	{
 		return array(
 			'idContactos' => 'Id Contactos',
-			'Contactos_Mensaje' => 'Contactos Mensaje',
-			'Contactos_Asunto' => 'Contactos Asunto',
-			'Contactos_Leido' => 'Contactos Leido',
-			'Contactos_Fecha' => 'Contactos Fecha',
-			'cruge_user_idProv' => 'Cruge User Id Prov',
-			'cruge_user_idEmpr' => 'Cruge User Id Empr',
+			'Asunto' => 'Asunto',
+			'Mensaje' => 'Mensaje',
+			'Leido' => 'Leido',
+			'Atendido' => 'Atendido',
+			'Creado' => 'Creado',
+			'cruge_user_Prov_id' => 'Cruge User Prov',
+			'cruge_user_Empr_id' => 'Cruge User Empr',
 		);
 	}
 
@@ -92,12 +94,13 @@ class Contactos extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('idContactos',$this->idContactos);
-		$criteria->compare('Contactos_Mensaje',$this->Contactos_Mensaje,true);
-		$criteria->compare('Contactos_Asunto',$this->Contactos_Asunto,true);
-		$criteria->compare('Contactos_Leido',$this->Contactos_Leido);
-		$criteria->compare('Contactos_Fecha',$this->Contactos_Fecha,true);
-		$criteria->compare('cruge_user_idProv',$this->cruge_user_idProv);
-		$criteria->compare('cruge_user_idEmpr',$this->cruge_user_idEmpr);
+		$criteria->compare('Asunto',$this->Asunto,true);
+		$criteria->compare('Mensaje',$this->Mensaje,true);
+		$criteria->compare('Leido',$this->Leido);
+		$criteria->compare('Atendido',$this->Atendido);
+		$criteria->compare('Creado',$this->Creado,true);
+		$criteria->compare('cruge_user_Prov_id',$this->cruge_user_Prov_id);
+		$criteria->compare('cruge_user_Empr_id',$this->cruge_user_Empr_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

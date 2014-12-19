@@ -68,13 +68,13 @@
     )
 ); ?>
 
-<?php echo $form->textFieldGroup($model, 'Stock', array('widgetOptions' => array('htmlOptions' => array('class' => 'span5', 'maxlength' => 255)), 'wrapperHtmlOptions' => array('class' => 'col-sm-5'), 'labelOptions' => array('class' => 'col-sm-2'))); ?>
+<?php //echo $form->textFieldGroup($model, 'Stock', array('widgetOptions' => array('htmlOptions' => array('class' => 'span5', 'maxlength' => 255)), 'wrapperHtmlOptions' => array('class' => 'col-sm-5'), 'labelOptions' => array('class' => 'col-sm-2'))); ?>
 
 <?php //echo $form->textFieldGroup($model,'URLCatalogo',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>255)),'wrapperHtmlOptions' => array( 'class' => 'col-sm-5'),'labelOptions' => array( 'class' => 'col-sm-2'))); ?>
 
 <?php echo $form->textFieldGroup($model, 'PrecioNormal', array('widgetOptions' => array('htmlOptions' => array('class' => 'span5', 'maxlength' => 255)), 'wrapperHtmlOptions' => array('class' => 'col-sm-5'), 'labelOptions' => array('class' => 'col-sm-2'))); ?>
 
-<?php echo $form->textFieldGroup($model, 'PedMin', array('widgetOptions' => array('htmlOptions' => array('class' => 'span5', 'maxlength' => 255)), 'wrapperHtmlOptions' => array('class' => 'col-sm-5'), 'labelOptions' => array('class' => 'col-sm-2'))); ?>
+<?php //echo $form->textFieldGroup($model, 'PedMin', array('widgetOptions' => array('htmlOptions' => array('class' => 'span5', 'maxlength' => 255)), 'wrapperHtmlOptions' => array('class' => 'col-sm-5'), 'labelOptions' => array('class' => 'col-sm-2'))); ?>
 
 
 <?php echo $form->dropDownListGroup($model, 'Publicado',

@@ -1,6 +1,6 @@
 <?php
 
 return array(
-        'adminEmail'=>'juankaka@gmail.com',
+        'adminEmail'=>'contacto@centralproveedores.cl',
         'languages'=>array('en'=>'English', 'es'=>'Español','br'=>'Português'),
 );

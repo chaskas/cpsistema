@@ -3,9 +3,6 @@
  * common configuration with different tier
  */
 
-//Yii::setPathOfAlias('yiiwheels', dirname(__FILE__).'/../extensions/yiibooster');
-
-
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '../..',
     'language'=>'es',
@@ -56,7 +53,7 @@ return array(
                  // NO OLVIDES PONER EN FALSE TRAS INSTALAR
                  'debug'=>true,
                  'rbacSetupEnabled'=>true,
-                 'allowUserAlways'=>true,
+                 'allowUserAlways'=>false,
 
                 // MIENTRAS INSTALAS..PONLO EN: false
                 // lee mas abajo respecto a 'Encriptando las claves'

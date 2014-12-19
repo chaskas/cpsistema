@@ -54,7 +54,10 @@
 
         <?php echo $content; ?>
 
+
     <div class="clear"></div>
 <?php $this->renderPartial('//layouts/_footer') ?>
+
+
 </body>
 </html>

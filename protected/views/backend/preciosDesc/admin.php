@@ -3,10 +3,10 @@
 /* @var $model PreciosDesc */
 
 
-if (isset($_GET['id'])) {
-   $p = Productos::model()->findByPk($_GET['id']);
+if (isset($_GET['pid'])) {
+   $p = Productos::model()->findByPk($_GET['pid']);
 $nombreproducto = ' de '.$p->Nombre_Producto;
-$prodid = $_GET['id'];
+$prodid = $_GET['pid'];
 } else {
 $nombreproducto ="";
 $prodid = "";
@@ -23,10 +23,10 @@ $this->breadcrumbs=array(
 
 $this->pageTitle = 'Administrar Precios'.$nombreproducto;
 
+isset($_GET['papelera']) ? $borrados = $_GET['papelera']: $borrados = 0;
 
 
-
-if (isset($_GET['papelera'])) :
+if ($borrados == 1) :
 
     $model->Borrado = 1;
     $this->pageTitle = 'Ver Precios Borrados'. $nombreproducto ;
@@ -45,7 +45,7 @@ else :
     $etiqueta='Borrar';
 
     $menuMas=array(
-        array('label'=>'Ver Papelera', 'url'=>array('admin&papelera', 'id' =>$prodid)),
+        array('label'=>'Ver Papelera', 'url'=>array('admin&', 'id' =>$prodid,'papelera'=>'1')),
     );
     Yii::app()->getClientScript()->registerScript('el',
         "jQuery(document).on('click','#".Yii::app()->controller->id."-grid span.fa-trash',function() {
@@ -112,7 +112,7 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
 <div class="portlet-title">
 
     <div class="caption">
-        <i class="fa fa-dropbox"></i>
+        <i class="fa fa-money"></i>
 										<span class="caption-subject bold uppercase">
 										<?php echo $this->pageTitle; ?> </span>
         <span class="caption-helper"></span>
@@ -147,7 +147,7 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
             'htmlOptions' => array('class' => 'green-seagreen btn-circle'),
             'label'=>'Nuevo',
             'icon' => 'plus-square',
-            'url' =>  $this->createUrl($controlador.'/create',array('id' =>$prodid)),
+            'url' =>  $this->createUrl($controlador.'/create',array('pid' =>$prodid)),
 
         )); ?>
 
@@ -286,7 +286,35 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
             'CantMin',
             'CantMax',
             'Precio',
-            'TipoDesc_id',
+
+     //       'TipoDesc_id',
+
+            array(
+                'class' => 'booster.widgets.TbPrecioColumn',
+                'toggleAction' => $controlador.'/toggle',
+                'name' => 'TipoDesc_id',
+                'headerHtmlOptions' => array('style' => 'width:10px'),
+                'checkedIcon' => 'bolt',
+                'uncheckedIcon' => 'cubes',
+                'header' => 'Tipo',
+                'checkedButtonLabel' => 'ofertaflash',
+                'uncheckedButtonLabel' => 'Economia de Escala'
+            ),
+
+
+            array(
+                'class' => 'booster.widgets.TbToggleColumnAwesome',
+                'toggleAction' => $controlador.'/toggle',
+                'name' => 'Publicado',
+                'headerHtmlOptions' => array('style' => 'width:100px;text-align: center;'),
+                'checkedIcon' => 'check-circle',
+                'uncheckedIcon' => 'times-circle',
+                'header' => 'Publicado',
+
+                'checkedButtonLabel' => 'Despublicar',
+                'uncheckedButtonLabel' => 'Publicar'
+            ),
+
 
             array(
                 'htmlOptions' => array('style' => 'width:150px;text-align: center;'),

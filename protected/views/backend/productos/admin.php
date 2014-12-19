@@ -20,11 +20,8 @@ if (isset($_GET['papelera'])) :
     $ruta ='productos/RestaurarChecked';
     $icono ='recycle';
     $etiqueta='Restaurar';
-
-
-
-
 else :
+
 $model->Borrado = 0;
 $estilo ='bulk-actions-btn blue-ebonyclay btn-circle disabled';
 $ruta ='productos/BorrarChecked';
@@ -32,7 +29,7 @@ $icono ='trash';
 $etiqueta='Borrar';
 
     $menuMas=array(
-        array('label'=>'Ver Papelera', 'url'=>array('admin&papelera')),
+        array('label'=>'Ver Papelera', 'url'=>array('index&papelera')),
     );
     Yii::app()->getClientScript()->registerScript('el',
         "jQuery(document).on('click','#".Yii::app()->controller->id."-grid span.fa-trash',function() {
@@ -102,6 +99,8 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
         <i class="fa fa-dropbox"></i>
 										<span class="caption-subject bold uppercase">
 										<?php echo $this->pageTitle; ?> </span>
+
+        <?php // echo Yii::app()->user->id; ?>
         <span class="caption-helper"></span>
     </div>
 
@@ -164,6 +163,7 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
             'id'=>'despublicar',
 
         )); ?>
+
 
         <?php $this->widget('booster.widgets.TbButtonAwesome', array(
             'buttonType' => 'button',
@@ -250,6 +250,7 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
         'columns' => array(
 
             'idProductos',
+          //  'cruge_user_Prov_id',
 
             array(
                 'name' => 'Nombre_Producto',
@@ -261,9 +262,13 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
                     'type' => 'text',
                     'url' => $this->createUrl($controlador.'/editableSaver'),
                     'name' => 'Nombre_Producto',
-                    'title' => 'Editar Nombre'
+                    'title' => 'Editar Nombre',
+                    'validate' => 'js: function(value) {
+                      if($.trim(value) == "") return "Este Campo no puede estar en blanco";}',
+
                 )
             ),
+
             array(
                 'name' => 'Categorias_id',
                 'header' => 'Categoría',
@@ -280,30 +285,70 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
 
                 )
             ),
-/*            array(
-                'name'=>'Precio Unitario',
-               // 'value'=>'CHtml::link($data->username,Yii::app()->createUrl("user/view",array("id"=>$data->PrecioNormal)))',
-                'value' => Productos::model()->columnaPrecio('$data->idProductos')
-
-
-            ),*/
 
             array(
-                'class' => 'booster.widgets.TbPrecioColumn',
-                'precioAction' => $controlador.'/toggle',
-                'name' => 'Precio Normal',
-//                'headerHtmlOptions' => array('style' => 'width:100px;text-align: center;'),
-                'checkedIcon' => 'check-circle',
-                'uncheckedIcon' => 'times-circle',
-                'header' => 'PrecioNormal',
-                'checkedButtonLabel' => 'Despublicar',
-                'uncheckedButtonLabel' => 'Publicar'
+                'name' => 'PrecioNormal',
+                'header' => 'Precio',
+                'class' => 'booster.widgets.TbPrecioEditableColumn',
+                'headerHtmlOptions' => array('style' => 'min-width:100px;text-align: center;'),
+                'filter' => false,
+                'editable' => array(
+                    'type' => 'text',
+                    'url' => $this->createUrl($controlador.'/editableSaver'),
+                    'name' => 'PrecioNormal',
+                    'title' => 'Editar Precio',
+                    'htmlOptions' => array('style' => 'text-align:right'),
+                    'validate' => 'js: function(value) {
+                     if($.trim(value) == "") return "Este Campo no puede estar en blanco";}',
+                    'display' => 'js: function(value, sourceData) {
+                                     var escapedValue = $("<div>").text(value).html();
+                                     var string = numeral(escapedValue).format(\'0,0\').replace(/,/g,".");
+                                     $(this).html("<i class=\'fa fa-usd\' style=\'font-size: 12px;\'></i> <b>"+string+"</b>");}'
+                )
+            ),
+
+            array(
+                'htmlOptions' => array('style' => 'width:150px;text-align: center;'),
+                'class' => 'booster.widgets.TbButtonColumnAwesome',
+               // 'header' => '<i class="fa fa-fa-cubes"></i> ',
+                'template' => '{desc}',
+                'buttons' => array(
+                        'desc' => array(
+                            'label' => 'Ver de Escdala y ofertas flash Avanzados',
+                            'url'=>'Yii::app()->createUrl("PreciosDesc/index", array("pid"=>$data->primaryKey))',
+                            'icon'=> 'search-plus',
+                            'options' => array(
+                                'class' => 'btn btn-small',
+                            ),
+
+                    ) ,
+                )
+            ),
+            array(
+                'name' => 'EstadoStock_id',
+                'header' => 'Stock',
+                'class' => 'booster.widgets.TbEditableColumn',
+                'headerHtmlOptions' => array('style' => 'min-width:100px;'),
+                'filter' => false,
+                'editable' => array(
+                    'type' => 'select',
+                    'url' => $this->createUrl($controlador.'/editableSaver'),
+                    'source' => CHtml::listData(Estadostock::model()->findAll('Publicado=:p and Borrado=:b', array(':p'=>1,':b'=> 0)),'idEstadoStock' ,'Nombre_Estado'),
+                    'name' => 'EstadoStock_id',
+                    'title' => 'Seleccionar Estado',
+                    'options'  => array(    //custom display
+                        'display' => 'js: function(value, sourceData) {
+                          var selected = $.grep(sourceData, function(o){ return value == o.value; }),
+                              colors = {1: "green", 2: "red", 3: "purple", 4: "gray"};
+                          $(this).text(selected[0].text).css("color", colors[value]);
+                      }'
+
+                    ),
+                )
+
             ),
 
 
-
-
-            'Stock',
             array(
                 'class' => 'booster.widgets.TbToggleColumnAwesome',
                 'toggleAction' => $controlador.'/toggle',
@@ -332,11 +377,10 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
                         'options' => array(
                             'class' => 'btn btn-small',
                         ),
+
                     ) ,
-
-
-                    )
-                ),
+                )
+            ),
             array(
                 'class' => 'booster.widgets.TbToggleColumnAwesome',
                 'toggleAction' => $controlador.'/toggle',
@@ -350,43 +394,10 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
             ),
 
         ),
-    )); ?>
+    ));
+
+
+
+
+?>
 </div>
-
-
-<?php /*$this->widget('booster.widgets.TbExtendedGridView',array(
-'id'=>'productos-grid',
-'fixedHeader' => true,
-'headerOffset' => 40,
-// 40px is the height of the main navigation at bootstrap
-'type' => 'striped',
-//'responsiveTable' => true,
-'template' => "{items}",
-'dataProvider'=>$model->search(),
-'filter'=>$model,
-'columns'=>array(
-		'idProductos',
-		'Codigo',
-		'Nombre_Producto',
-		'Descripcion',
-		'Marca',
-		'Modelo',
-		/*
-		'CodModelo',
-		'Tamano',
-		'Capacidad',
-		'TiempoDespacho',
-		'Stock',
-		'URLCatalogo',
-		'PrecioNormal',
-		'PedMin',
-		'Visitado',
-		'Publicado',
-		'Borrado',
-		'Creado',
-		'Actualizado',
-		'EstadoStock_id',
-		'cruge_user_Prov_id',
-		'Categorias_id',
-		*/
- ?>

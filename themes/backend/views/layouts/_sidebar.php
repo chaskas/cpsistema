@@ -123,7 +123,7 @@
                           </ul>
                       </li>
 
-                  <!-- END SIDEBAR MENU -->*/?>
+                  <!-- END SIDEBAR MENU -->
     </div>
 </div>
 <!-- END SIDEBAR -->

@@ -15,6 +15,7 @@ class ProductosController extends Controller
     {
         return array(
             'accessControl', // perform access control for CRUD operations
+            array('CrugeAccessControlFilter')
         );
     }
 
@@ -139,7 +140,7 @@ class ProductosController extends Controller
     {
         $model = new Productos('search');
         $model->unsetAttributes();  // clear any default values
-        $model->cruge_user_Prov_id = Yii::app()->user->id; ;
+        $model->cruge_user_Prov_id = Yii::app()->user->id;
         if (isset($_GET['Productos']))
             $model->attributes = $_GET['Productos'];
 
@@ -177,26 +178,6 @@ class ProductosController extends Controller
     }
 
 
-    public function actions()
-    {
-        return array(
-            'toggle' => array(
-                'class'=>'booster.actions.TbToggleAction',
-                'modelName' => 'productos',
-            )
-        );
-    }
-
-    public function actionEditableSaver()
-    {
-        Yii::import('application.extensions.booster.components.TbEditableSaver');
-        $es = new TbEditableSaver('productos');
-        $es->onBeforeUpdate = function($event) {
-            $event->sender->setAttribute('Actualizado', date('Y-m-d H:i:s'));
-        };
-        $es->update();
-    }
-
     public function actionBorrarChecked(){
         if(Yii::app()->request->getIsAjaxRequest())
         {
@@ -208,22 +189,6 @@ class ProductosController extends Controller
             foreach($checkedIDs as $id){
                 $prod=Productos::model()->findByPk($id);
                 $prod->Borrado=1;
-                $prod->save();
-            }
-        }
-    }
-
-    public function actionPublicarChecked(){
-        if(Yii::app()->request->getIsAjaxRequest())
-        {
-
-            if (isset($_POST['ids'])) :
-                $checkedIDs = explode(",",$_POST['ids']);
-            endif;
-
-            foreach($checkedIDs as $id){
-                $prod=Productos::model()->findByPk($id);
-                $prod->Publicado=1;
                 $prod->save();
             }
         }
@@ -256,6 +221,42 @@ class ProductosController extends Controller
             foreach($checkedIDs as $id){
                 $prod=Productos::model()->findByPk($id);
                 $prod->Borrado=0;
+                $prod->save();
+            }
+        }
+    }
+
+    public function actions()
+    {
+        return array(
+            'toggle' => array(
+                'class'=>'booster.actions.TbToggleAction',
+                'modelName' => 'productos',
+            )
+        );
+    }
+
+    public function actionEditableSaver()
+    {
+        Yii::import('application.extensions.booster.components.TbEditableSaver');
+        $es = new TbEditableSaver('productos');
+        $es->onBeforeUpdate = function($event) {
+            $event->sender->setAttribute('Actualizado', date('Y-m-d H:i:s'));
+        };
+        $es->update();
+    }
+
+    public function actionPublicarChecked(){
+        if(Yii::app()->request->getIsAjaxRequest())
+        {
+
+            if (isset($_POST['ids'])) :
+                $checkedIDs = explode(",",$_POST['ids']);
+            endif;
+
+            foreach($checkedIDs as $id){
+                $prod=Productos::model()->findByPk($id);
+                $prod->Publicado=1;
                 $prod->save();
             }
         }

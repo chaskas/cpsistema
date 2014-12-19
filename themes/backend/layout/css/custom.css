@@ -113,3 +113,8 @@ select>option:hover
 
     background: #101010 !important;
 }
+.is-superadmin-note {
+    z-index: 999999999999999999999999999999999;
+
+
+}

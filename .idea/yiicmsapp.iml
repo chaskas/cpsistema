@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/assets" />
+      <excludeFolder url="file://$MODULE_DIR$/files" />
+      <excludeFolder url="file://$MODULE_DIR$/framework" />
+      <excludeFolder url="file://$MODULE_DIR$/protected/controllers/api" />
+      <excludeFolder url="file://$MODULE_DIR$/protected/controllers/frontend" />
+      <excludeFolder url="file://$MODULE_DIR$/protected/models/_base" />
+      <excludeFolder url="file://$MODULE_DIR$/protected/models/_common" />
+      <excludeFolder url="file://$MODULE_DIR$/protected/models/api" />
+      <excludeFolder url="file://$MODULE_DIR$/protected/models/console" />
+      <excludeFolder url="file://$MODULE_DIR$/protected/models/frontend" />
+      <excludeFolder url="file://$MODULE_DIR$/protected/runtime" />
+      <excludeFolder url="file://$MODULE_DIR$/protected/tests" />
+      <excludeFolder url="file://$MODULE_DIR$/protected/views/frontend" />
+      <excludeFolder url="file://$MODULE_DIR$/themes/frontend" />
+      <excludeFolder url="file://$MODULE_DIR$/uploads" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

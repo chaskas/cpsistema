@@ -263,7 +263,9 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
                     'type' => 'text',
                     'url' => $this->createUrl($controlador.'/editableSaver'),
                     'name' => 'Nombre_Categoria',
-                    'title' => 'Editar Nombre'
+                    'title' => 'Editar Nombre',
+                    'validate' => 'js: function(value) {
+                      if($.trim(value) == "") return "Este Campo no puede estar en blanco";}'
                 )
             ),
             array(
