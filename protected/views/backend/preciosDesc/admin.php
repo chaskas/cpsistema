@@ -285,8 +285,27 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
             ),
             'CantMin',
             'CantMax',
-            'Precio',
 
+            array(
+                'name' => 'Precio',
+                'header' => 'Precio',
+                'class' => 'booster.widgets.TbPrecioEditableColumn',
+                'headerHtmlOptions' => array('style' => 'min-width:100px;text-align: center;'),
+                'filter' => false,
+                'editable' => array(
+                    'type' => 'text',
+                    'url' => $this->createUrl($controlador.'/editableSaver'),
+                    'name' => 'Precio',
+                    'title' => 'Editar Precio',
+                    'htmlOptions' => array('style' => 'text-align:right'),
+                    'validate' => 'js: function(value) {
+                     if($.trim(value) == "") return "Este Campo no puede estar en blanco";}',
+                    'display' => 'js: function(value, sourceData) {
+                                     var escapedValue = $("<div>").text(value).html();
+                                     var string = numeral(escapedValue).format(\'0,0\').replace(/,/g,".");
+                                     $(this).html("<i class=\'fa fa-usd\' style=\'font-size: 12px;\'></i> <b>"+string+"</b>");}'
+                )
+            ),
      //       'TipoDesc_id',
 
             array(

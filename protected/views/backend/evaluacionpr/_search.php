@@ -17,6 +17,8 @@
 
 		<?php echo $form->textAreaGroup($model,'Respuesta', array('widgetOptions'=>array('htmlOptions'=>array('rows'=>6, 'cols'=>50, 'class'=>'span8')))); ?>
 
+		<?php echo $form->textFieldGroup($model,'Promedio',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>10)))); ?>
+
 		<?php echo $form->textFieldGroup($model,'OrdenCompra_id',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5')))); ?>
 
 	<div class="form-actions">

@@ -12,6 +12,7 @@
  * @property string $Creado
  * @property integer $cruge_user_Prov_id
  * @property integer $cruge_user_Empr_id
+ * @property integer $Necesidades_id
  *
  * The followings are the available model relations:
  * @property CrugeUser $crugeUserProv
@@ -64,10 +65,10 @@ class Contactos extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idContactos' => 'Id Contactos',
+			'idContactos' => 'ID',
 			'Asunto' => 'Asunto',
 			'Mensaje' => 'Mensaje',
-			'Leido' => 'Leido',
+			'Leido' => 'Leído',
 			'Atendido' => 'Atendido',
 			'Creado' => 'Creado',
 			'cruge_user_Prov_id' => 'Cruge User Prov',
@@ -107,6 +108,41 @@ class Contactos extends CActiveRecord
 		));
 	}
 
+    private function _getCrugeUserCliente(){
+        return Yii::app()->user->um->loadUserById(
+            $this->cruge_user_Empr_id,true);
+        // TRUE para que cargue los campos personalizados
+    }
+
+    public function getEmpresa(){
+        return Yii::app()->user->um->getFieldValue(
+            $this->_getCrugeUserCliente(),'Empresa');
+    }
+
+    public function getComuna(){
+        return Yii::app()->user->um->getFieldValue(
+            $this->_getCrugeUserCliente(),'comuna');
+    }
+
+    public function getDireccion(){
+        return Yii::app()->user->um->getFieldValue(
+            $this->_getCrugeUserCliente(),'direccion');
+    }
+    public function getTelefono(){
+        return Yii::app()->user->um->getFieldValue(
+            $this->_getCrugeUserCliente(),'telefono');
+    }
+    public function getNombre(){
+        return Yii::app()->user->um->getFieldValue(
+            $this->_getCrugeUserCliente(),'nombreEnc');
+    }
+
+    public function getApellido(){
+        return Yii::app()->user->um->getFieldValue(
+            $this->_getCrugeUserCliente(),'ApellidoEnc');
+    }
+
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
@@ -117,4 +153,7 @@ class Contactos extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+
+
 }

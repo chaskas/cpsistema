@@ -2,19 +2,22 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/protected/controllers/frontend" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/protected/extensions" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/protected/models/frontend" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/protected/views/frontend" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/themes" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/assets" />
       <excludeFolder url="file://$MODULE_DIR$/files" />
       <excludeFolder url="file://$MODULE_DIR$/framework" />
       <excludeFolder url="file://$MODULE_DIR$/protected/controllers/api" />
-      <excludeFolder url="file://$MODULE_DIR$/protected/controllers/frontend" />
       <excludeFolder url="file://$MODULE_DIR$/protected/models/_base" />
       <excludeFolder url="file://$MODULE_DIR$/protected/models/_common" />
       <excludeFolder url="file://$MODULE_DIR$/protected/models/api" />
       <excludeFolder url="file://$MODULE_DIR$/protected/models/console" />
-      <excludeFolder url="file://$MODULE_DIR$/protected/models/frontend" />
+      <excludeFolder url="file://$MODULE_DIR$/protected/modules" />
       <excludeFolder url="file://$MODULE_DIR$/protected/runtime" />
       <excludeFolder url="file://$MODULE_DIR$/protected/tests" />
-      <excludeFolder url="file://$MODULE_DIR$/protected/views/frontend" />
       <excludeFolder url="file://$MODULE_DIR$/themes/frontend" />
       <excludeFolder url="file://$MODULE_DIR$/uploads" />
       <excludeFolder url="file://$MODULE_DIR$/vendor" />

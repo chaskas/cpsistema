@@ -1,10 +1,10 @@
 <?php
 
 return array(
-    'connectionString' => 'mysql:host=localhost;dbname=dbname',
+    'connectionString' => 'mysql:host=localhost;dbname=central_final',
     'emulatePrepare' => true,
-    'username' => 'root',
-    'password' => 'root',
+    'username' => 'central_tipi',
+    'password' => '[ulH6z&Ta@VD',
     'charset' => 'utf8',
     'schemaCachingDuration' => 60*60,
 );

@@ -1,30 +1,104 @@
 <?php
 $this->breadcrumbs=array(
-	'Contactoses'=>array('index'),
-	$model->idContactos,
+	'Contactos'=>array('index'),
+	$model->Asunto,
 );
 
-$this->menu=array(
-array('label'=>'List Contactos','url'=>array('index')),
-array('label'=>'Create Contactos','url'=>array('create')),
-array('label'=>'Update Contactos','url'=>array('update','id'=>$model->idContactos)),
-array('label'=>'Delete Contactos','url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->idContactos),'confirm'=>'Are you sure you want to delete this item?')),
-array('label'=>'Manage Contactos','url'=>array('admin')),
-);
+$usuario = Yii::app()->user->um->loadUserById($model->cruge_user_Empr_id,true);
 ?>
+<div class="portlet-body">
+    <div class="row inbox">
+        <div class="col-md-4">
+            <div class="portlet grey-gallery box">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-user"></i>Información del cliente
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Nombre Empresa:
+                        </div>
+                        <div class="col-md-7 value">
+                            <?php echo $model->Empresa;?>
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Encargado:
+                        </div>
+                        <div class="col-md-7 value">
+                            <?php echo $model->Nombre.' '.$model->Apellido; ?>
+                        </div>
+                    </div>
 
-<h1>View Contactos #<?php echo $model->idContactos; ?></h1>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Correo:
+                        </div>
+                        <div class="col-md-7 value">
+                            <?php echo $usuario->email; ?>
+                        </div>
+                    </div>
 
-<?php $this->widget('booster.widgets.TbDetailView',array(
-'data'=>$model,
-'attributes'=>array(
-		'idContactos',
-		'Asunto',
-		'Mensaje',
-		'Leido',
-		'Atendido',
-		'Creado',
-		'cruge_user_Prov_id',
-		'cruge_user_Empr_id',
-),
-)); ?>
+
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Teléfono:
+                        </div>
+                        <div class="col-md-7 value">
+                            <?php echo $model->Telefono; ?>
+                        </div>
+                    </div>
+
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Comuna:
+                        </div>
+                        <div class="col-md-7 value">
+                            <?php echo Comuna::model()->findByPk($model->Comuna)->Nombre_Comuna; ?>
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            Dirección:
+                        </div>
+                        <div class="col-md-7 value">
+                            <?php echo $model->Direccion; ?>
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">
+                            &nbsp;
+                        </div>
+                        <div class="col-md-7 value">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-7">
+            <div class="inbox-content"><div class="inbox-header inbox-view-header">
+                    <h1 class="pull-left"><?php echo $model->Asunto; ?></h1>
+                </div>
+                <div style="clear: both"></div>
+
+                <div class="inbox-view-info">
+                    <div class="row">
+                        <div class="col-md-7">
+            <span class="bold">Enviado:</span> <?php echo Yii::app()->dateFormatter->formatDateTime($model->Creado, 'long', 'short'); ?>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="inbox-view">
+                    <?php echo $model->Mensaje; ?>
+                </div>
+
+        </div>
+    </div>
+</div>

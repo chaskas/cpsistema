@@ -19,10 +19,10 @@ return array(
             'showScriptName' => false,
             'rules' => require(dirname(__FILE__) . '/routes.php'),
         ),*/
-       /* 'errorHandler' => array(
+        'errorHandler' => array(
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',
-        ),*/
+        ),
     ),
     'params' => require(dirname(__FILE__) . '/params.php'),
 );

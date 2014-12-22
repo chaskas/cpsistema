@@ -14,34 +14,40 @@
          array(
              'label' => '<i class="icon-home"></i><span class="title">Inicio</span>',
              'encodeLabel' => false,
-             'url' => array('site/index'),
+             'url' => array('/site/index'),
              'activeCssClass' => 'active'
          ),
          array(
              'label' => '<i class="icon-social-dropbox"></i><span class="title">Productos</span><span class="arrow "></span>',
              'encodeLabel' => false,
-             'url' => array('productos/index'),
+             'url' => array('/productos/index'),
              'activeCssClass' => 'active open',
              'submenuOptions' => array('class' => 'sub-menu', 'activateParents' => true),
              'items' => array(
                  array(
-                     'label' => '<i class="icon-plus"></i><span class="title">Nuevo Producto</span>',
+                     'label' => '<i class="icon-eye"></i> <span class="title">Ver Productos</span>',
+                     'encodeLabel' => false,
+                     'url' => array('/Productos/index'),
+                     'activeCssClass' => 'active',
+                 ),
+                 array(
+                     'label' => '<i class="icon-plus"></i> <span class="title">Nuevo Producto</span>',
                       'encodeLabel' => false,
-                      'url' => array('Productos/create'),
+                      'url' => array('/Productos/create'),
                       'activeCssClass' => 'active',
-                 )
+                 ),
              )
          ),
          array(
-             'label' => '<i class="icon-basket-loaded"></i><span class="title">Órdenes de Compra</span><span class="arrow "></span>',
+             'label' => '<i class="icon-basket-loaded"></i><span class="title">Órdenes de Compra</span>',
              'encodeLabel' => false,
-             'url' => array('OrdenCompra/index'),
+             'url' => array('/OrdenCompra/index'),
              'activeCssClass' => 'active open'
          ),
          array(
-             'label' => '<i class="icon-call-in"></i><span class="title">Contactos</span><span class="arrow "></span>',
+             'label' => '<i class="icon-call-in"></i><span class="title">Contactos</span>',
              'encodeLabel' => false,
-             'url' => array('Contactos'),
+             'url' => array('/Contactos/index'),
              'activeCssClass' => 'active open',
              'submenuOptions' => array('class' => 'sub-menu', 'activateParents' => true,),
              'items' => array(
@@ -52,76 +58,40 @@
                      'activeCssClass' => 'active',
 
                  ),*/
-                 array(
-                     'label' => '<i class="icon-envelope-letter"></i><span class="title">Mensajes Nuevos</span>',
+/*                 array(
+                     'label' => '<i class="icon-envelope-letter"></i><span class="title">Ver Mensajes</span>',
                      'encodeLabel' => false,
-                     'url' => array('Contactos/nuevos'),
+                     'url' => array('/Contactos/index'),
                      'activeCssClass' => 'active',
-                 ),
+                 ),*/
              )
          ),
          array(
-             'label' => '<i class="icon-bar-chart"></i><span class="title">Informmes</span><span class="arrow "></span>',
+             'label' => '<i class="icon-support"></i><span class="title">Necesidades</span>',
              'encodeLabel' => false,
-             'url' => array('informes/index'),
-             'activeCssClass' => 'active open'
+             'url' => array('/necesidades/index'),
+             'activeCssClass' => 'active'
          ),
-         array(
-             'label' => '<i class="icon-badge"></i><span class="title">Evaluaciones</span><span class="arrow "></span>',
-             'encodeLabel' => false,
-             'url' => array('evaluaciones/index'),
-             'activeCssClass' => 'active open'),
 
+         array(
+             'label' => '<i class="icon-bar-chart"></i><span class="title">Reportes</span><span class="arrow "></span>',
+             'encodeLabel' => false,
+             'url' => array('/informes/index'),
+             'activeCssClass' => 'active open',
+             'submenuOptions' => array('class' => 'sub-menu', 'activateParents' => true),
+             'items' => array(
+                 array(
+                     'label' => '<i class="icon-badge"></i><span class="title">Evaluaciones</span>',
+                     'encodeLabel' => false,
+                     'url' => array('/evaluaciones/index'),
+                     'activeCssClass' => 'active open'
+                 ),
+             )
+         ),
      )
-  )
-  );
+  ));
 
 ?>
-
-
-
-        <!--          <ul class="page-sidebar-menu" data-auto-scroll="false" data-slide-speed="200">
-
-
-
-                      <li class="start "><a href="index.html">
-                          </a>
-                      </li>
-                      <li class="active">
-                          <a href="javascript:;">
-                          <i class="icon-basket"></i>
-                          <span class="title">eCommerce</span>
-                          <span class="selected"></span>
-                          <span class="arrow open"></span>
-                          </a>
-                          <ul class="sub-menu">
-                              <li class="active">
-                                  <a href="ecommerce_index.html">
-                                  <i class="icon-home"></i>
-                                  Dashboard</a>
-                              </li>
-                              <li>
-                                  <a href="ecommerce_orders.html">
-                                  <i class="icon-basket"></i>
-                                  Orders</a>
-                              </li>
-                              <li>
-                                  <a href="ecommerce_orders_view.html">
-                                  <i class="icon-tag"></i>
-                                  Order View</a>
-                              </li>
-                              <li>
-                                  <a href="ecommerce_products.html">
-                                  <i class="icon-handbag"></i>
-                                  Products</a>
-                              </li>
-                              <li>
-                                  <a href="ecommerce_products_edit.html">
-                                  <i class="icon-pencil"></i>
-                                  Product Edit</a>
-                              </li>
-                          </ul>
-                      </li>
 
                   <!-- END SIDEBAR MENU -->
     </div>

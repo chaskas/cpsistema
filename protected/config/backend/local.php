@@ -6,7 +6,7 @@ return CMap::mergeArray(
            // 'ext.debugtoolbar.XWebDebugRouter',
         ),
         'components' => array(
-/*            'log' => array(
+            'log' => array(
                 'class' => 'CLogRouter',
                 'routes' => array(
                     array(
@@ -14,14 +14,14 @@ return CMap::mergeArray(
                         'levels' => 'error, warning, trace, info',
                     ),
                     // debug toolbar configuration
-                    array(
+/*                    array(
                         'class' => 'XWebDebugRouter',
                         'config' => 'alignLeft, opaque, runInDebug, fixedPos, collapsed, yamlStyle',
                         'levels' => 'error, warning, trace, profile, info',
                         'allowedIPs' => array('127.0.0.1', $_SERVER['REMOTE_ADDR']),
-                    ),
+                    ),*/
                 ),
-            ),*/
+            ),
             'cache' => array(
                 'class' => 'system.caching.CFileCache',
             ),

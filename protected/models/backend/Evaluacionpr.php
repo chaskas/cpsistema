@@ -11,6 +11,7 @@
  * @property integer $TiempoFact
  * @property string $Comentario
  * @property string $Respuesta
+ * @property string $Promedio
  * @property integer $OrdenCompra_id
  *
  * The followings are the available model relations:
@@ -36,10 +37,11 @@ class Evaluacionpr extends CActiveRecord
 		return array(
 			array('OrdenCompra_id', 'required'),
 			array('TiempoRespuesta, TiempoEnvio, CalidadProd, TiempoFact, OrdenCompra_id', 'numerical', 'integerOnly'=>true),
+			array('Promedio', 'length', 'max'=>10),
 			array('Comentario, Respuesta', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idEvaluacionPr, TiempoRespuesta, TiempoEnvio, CalidadProd, TiempoFact, Comentario, Respuesta, OrdenCompra_id', 'safe', 'on'=>'search'),
+			array('idEvaluacionPr, TiempoRespuesta, TiempoEnvio, CalidadProd, TiempoFact, Comentario, Respuesta, Promedio, OrdenCompra_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -68,6 +70,7 @@ class Evaluacionpr extends CActiveRecord
 			'TiempoFact' => 'Tiempo Fact',
 			'Comentario' => 'Comentario',
 			'Respuesta' => 'Respuesta',
+			'Promedio' => 'Evaluación',
 			'OrdenCompra_id' => 'Orden Compra',
 		);
 	}
@@ -97,6 +100,7 @@ class Evaluacionpr extends CActiveRecord
 		$criteria->compare('TiempoFact',$this->TiempoFact);
 		$criteria->compare('Comentario',$this->Comentario,true);
 		$criteria->compare('Respuesta',$this->Respuesta,true);
+		$criteria->compare('Promedio',$this->Promedio,true);
 		$criteria->compare('OrdenCompra_id',$this->OrdenCompra_id);
 
 		return new CActiveDataProvider($this, array(

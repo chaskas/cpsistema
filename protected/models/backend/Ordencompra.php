@@ -14,6 +14,7 @@
  * @property integer $cruge_user_Empr_id
  * @property integer $EstadoOC_id
  * @property integer $InfoDespacho_id
+ * @propety integer  Total
  *
  * The followings are the available model relations:
  * @property Evaluacionpr[] $evaluacionprs
@@ -23,6 +24,7 @@
  * @property Infodespacho $infoDespacho
  * @property Opcionespago $opcionesPago
  * @property Productos[] $productoses
+ *
  */
 class Ordencompra extends CActiveRecord
 {
@@ -43,11 +45,11 @@ class Ordencompra extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('OpcionesPago_id, cruge_user_Prov_id, cruge_user_Empr_id, InfoDespacho_id', 'required'),
-			array('Estado_Facturacion, Numero_Factura, Estado_Pago, OpcionesPago_id, cruge_user_Prov_id, cruge_user_Empr_id, EstadoOC_id, InfoDespacho_id', 'numerical', 'integerOnly'=>true),
+			array('Estado_Facturacion, Numero_Factura, Total Estado_Pago, OpcionesPago_id, cruge_user_Prov_id, cruge_user_Empr_id, EstadoOC_id, InfoDespacho_id', 'numerical', 'integerOnly'=>true),
 			array('FechaCreacion', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idOrdenCompra, FechaCreacion, Estado_Facturacion, Numero_Factura, Estado_Pago, OpcionesPago_id, cruge_user_Prov_id, cruge_user_Empr_id, EstadoOC_id, InfoDespacho_id', 'safe', 'on'=>'search'),
+			array('idOrdenCompra, Total, FechaCreacion, Estado_Facturacion, Numero_Factura, Estado_Pago, OpcionesPago_id, cruge_user_Prov_id, cruge_user_Empr_id, EstadoOC_id, InfoDespacho_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,7 +61,8 @@ class Ordencompra extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'evaluacionprs' => array(self::HAS_MANY, 'Evaluacionpr', 'OrdenCompra_id'),
+			'evaluacionprs' => array(self::HAS_MANY, 'Evaluacionpr', 'OrdenCompra_id', 'select' => 'Promedio, Comentario, Respuesta, idEvaluacionPr'),
+            'eval' => array(self::HAS_ONE, 'Evaluacionpr', 'OrdenCompra_id'),
 			'crugeUserProv' => array(self::BELONGS_TO, 'CrugeUser', 'cruge_user_Prov_id'),
 			'crugeUserEmpr' => array(self::BELONGS_TO, 'CrugeUser', 'cruge_user_Empr_id'),
 			'estadoOC' => array(self::BELONGS_TO, 'Estadooc', 'EstadoOC_id'),
@@ -75,16 +78,17 @@ class Ordencompra extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idOrdenCompra' => 'Id Orden Compra',
-			'FechaCreacion' => 'Fecha Creacion',
-			'Estado_Facturacion' => 'Estado Facturacion',
+			'idOrdenCompra' => '# Orden',
+			'FechaCreacion' => 'Fecha',
+			'Estado_Facturacion' => 'Facturación',
 			'Numero_Factura' => 'Numero Factura',
-			'Estado_Pago' => 'Estado Pago',
+			'Estado_Pago' => 'Pago',
 			'OpcionesPago_id' => 'Opciones Pago',
 			'cruge_user_Prov_id' => 'Cruge User Prov',
-			'cruge_user_Empr_id' => 'Cruge User Empr',
-			'EstadoOC_id' => 'Estado Oc',
+			'cruge_user_Empr_id' => 'Cliente',
+			'EstadoOC_id' => 'Estado',
 			'InfoDespacho_id' => 'Info Despacho',
+            'Total' => 'Total',
 		);
 	}
 
@@ -102,8 +106,8 @@ class Ordencompra extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
 
+		// @todo Please modify the following code to remove attributes that should not be searched.
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('idOrdenCompra',$this->idOrdenCompra);
@@ -116,11 +120,60 @@ class Ordencompra extends CActiveRecord
 		$criteria->compare('cruge_user_Empr_id',$this->cruge_user_Empr_id);
 		$criteria->compare('EstadoOC_id',$this->EstadoOC_id);
 		$criteria->compare('InfoDespacho_id',$this->InfoDespacho_id);
+        $criteria->compare('Total',$this->Total);
 
-		return new CActiveDataProvider($this, array(
+
+        return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+
+    private function _getCrugeUserCliente(){
+        return Yii::app()->user->um->loadUserById(
+            $this->cruge_user_Empr_id,true);
+        // TRUE para que cargue los campos personalizados
+    }
+
+    public function getEmpresa(){
+        return Yii::app()->user->um->getFieldValue(
+            $this->_getCrugeUserCliente(),'Empresa');
+    }
+
+    public function getComuna(){
+        return Yii::app()->user->um->getFieldValue(
+            $this->_getCrugeUserCliente(),'comuna');
+    }
+
+    public function getDireccion(){
+        return Yii::app()->user->um->getFieldValue(
+            $this->_getCrugeUserCliente(),'direccion');
+    }
+    public function getTelefono(){
+        return Yii::app()->user->um->getFieldValue(
+            $this->_getCrugeUserCliente(),'telefono');
+    }
+    public function getNombre(){
+        return Yii::app()->user->um->getFieldValue(
+            $this->_getCrugeUserCliente(),'nombreEnc');
+    }
+
+    public function getApellido(){
+        return Yii::app()->user->um->getFieldValue(
+            $this->_getCrugeUserCliente(),'ApellidoEnc');
+    }
+
+
+
+
+
+
+/*    public function getApellido(){
+        return Yii::app()->user->um->getFieldValue(
+            $this->_getCrugeUser(),'apellido');
+    }*/
+
+
+
 
 	/**
 	 * Returns the static model of the specified AR class.

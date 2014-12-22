@@ -9,7 +9,6 @@
  * @property string $FechaRevalidacion
  * @property string $FechaVenc
  * @property integer $cruge_user_iduser
- * @property integer $cruge_user_idprov
  *
  * The followings are the available model relations:
  * @property CrugeUser $crugeUserIduser
@@ -34,12 +33,12 @@ class Cotizacion extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('FechaCreacion, FechaRevalidacion, cruge_user_iduser, cruge_user_idprov', 'required'),
-			array('cruge_user_iduser, cruge_user_idprov', 'numerical', 'integerOnly'=>true),
+			array('FechaCreacion, FechaRevalidacion, cruge_user_iduser', 'required'),
+			array('cruge_user_iduser', 'numerical', 'integerOnly'=>true),
 			array('FechaVenc', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idCotizacion, FechaCreacion, FechaRevalidacion, FechaVenc, cruge_user_iduser, cruge_user_idprov', 'safe', 'on'=>'search'),
+			array('idCotizacion, FechaCreacion, FechaRevalidacion, FechaVenc, cruge_user_iduser', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,7 +51,6 @@ class Cotizacion extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'crugeUserIduser' => array(self::BELONGS_TO, 'CrugeUser', 'cruge_user_iduser'),
-			'crugeUserIdprov' => array(self::BELONGS_TO, 'CrugeUser', 'cruge_user_idprov'),
 			'productoses' => array(self::MANY_MANY, 'Productos', 'productos_has_cotizacion(Cotizacion_id, Productos_id)'),
 		);
 	}
@@ -68,7 +66,6 @@ class Cotizacion extends CActiveRecord
 			'FechaRevalidacion' => 'Fecha Revalidacion',
 			'FechaVenc' => 'Fecha Venc',
 			'cruge_user_iduser' => 'Cruge User Iduser',
-			'cruge_user_idprov' => 'Cruge User Idprov',
 		);
 	}
 
@@ -95,7 +92,6 @@ class Cotizacion extends CActiveRecord
 		$criteria->compare('FechaRevalidacion',$this->FechaRevalidacion,true);
 		$criteria->compare('FechaVenc',$this->FechaVenc,true);
 		$criteria->compare('cruge_user_iduser',$this->cruge_user_iduser);
-		$criteria->compare('cruge_user_idprov',$this->cruge_user_idprov);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

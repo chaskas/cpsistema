@@ -60,6 +60,7 @@ $this->breadcrumbs=array(
 		'Comentario',
 		/*
 		'Respuesta',
+		'Promedio',
 		'OrdenCompra_id',
 		*/
 array(

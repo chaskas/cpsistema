@@ -231,7 +231,7 @@ function() {
 	 * @param mixed $data the data associated with the row
 	 */
 	protected function renderDataCellContent($row, $data) {
-		
+
 		$checked = ($this->value === null)
 			? CHtml::value($data, $this->name)
 			: $this->evaluateExpression($this->value, array('data' => $data, 'row' => $row));

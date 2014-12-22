@@ -65,19 +65,17 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
 <div class="portlet-title">
 
     <div class="caption">
-        <i class="fa fa-dropbox"></i>
+        <i class="fa fa-reorder"></i>
 										<span class="caption-subject bold uppercase">
 										<?php echo $this->pageTitle; ?> </span>
-
-        <?php  //echo Yii::app()->user->id; ?>
-        <span class="caption-helper"></span>
+       <span class="caption-helper"></span>
     </div>
 
 
 
 
 
-    <div class="actions btn-set">
+   <div class="actions btn-set">
         <?php $this->widget('booster.widgets.TbButtonAwesome', array(
             'buttonType' => 'button',
             'htmlOptions' => array('class' => 'btn-default btn-circle', 'onclick' => 'js:history.go(-1)'),
@@ -86,56 +84,7 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
 
         )); ?>
 
-        <?php $this->widget('booster.widgets.TbButtonAwesome', array(
-            'buttonType' => 'button',
-            'context'=>'primary',
-            'htmlOptions' => array('class' => 'search-button grey btn-circle'),
-            'label'=>'Filtros',
-            'icon' => 'filter'
-
-        )); ?>
-
-
-        <?php $this->widget('booster.widgets.TbButtonAwesome', array(
-            'buttonType' => 'link',
-            'context'=>'primary',
-            'htmlOptions' => array('class' => 'green-seagreen btn-circle'),
-            'label'=>'Nuevo',
-            'icon' => 'plus-square',
-            'url' =>  $this->createUrl($controlador.'/create'),
-
-        )); ?>
-
-
-        <?php $this->widget('booster.widgets.TbButtonAwesome', array(
-            'buttonType' => 'button',
-            'context'=>'primary',
-            'htmlOptions' => array(
-                'class' => 'green btn-circle bulk-actions-btn disabled',
-                'rel' => $this->createUrl($controlador.'/PublicarChecked'),
-            ),
-            'label'=>'Publicar',
-            'icon' => 'check-square',
-            'id' => 'publicar',
-
-        )); ?>
-
-        <?php $this->widget('booster.widgets.TbButtonAwesome', array(
-            'buttonType' => 'button',
-            'context'=>'primary',
-            'htmlOptions' => array(
-                'class' => 'bulk-actions-btn red-thunderbird btn-circle disabled',
-                'rel' => $this->createUrl($controlador.'/DespublicarChecked')
-            ),
-            'label'=>'Despublicar',
-            'icon' => 'times',
-            'id'=>'despublicar',
-
-        )); ?>
-
-
-
-        <?php
+       <?php
         $this->widget(
             'booster.widgets.TbButtonGroupAwesome',
             array(
@@ -153,16 +102,9 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
                 ),
             )
         );
-        ?>
+       ?>
     </div>
 </div>
-
-<div class="search-form" style="display:none">
-    <!--<div class="search-form">-->
-    <?php $this->renderPartial('_search', array(
-        'model' => $model,
-    )); ?>
-</div><!-- search-form -->
 
 <div class="portlet-body">
 
@@ -186,17 +128,11 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
             'nextPageLabel' => 'Siguiente',
             'lastPageLabel' => 'Último',
         ),
-        //'sortableRows'=>true,
-        //  'afterSortableUpdate' => 'js:function(id, position){ console.log("id: "+id+", position:"+position);}',
-        // 'selectableCells'=>false,
-        'selectableRows' => 2,
         'template' => "{summary}\n{items}\n{pager}\n{extendedSummary}",
         'bulkActions' => array(
             'actionButtons' => array(
 
             ),
-            // if grid doesn't have a checkbox column type, it will attach
-            // one and this configuration will be part of it
             'checkBoxColumnConfig' => array(
                 'name' => 'idProductos'
             ),
@@ -204,20 +140,81 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
 
         'columns' => array(
 
-            'idOrdenCompra',
+            array(
+                'name'=>'idOrdenCompra',
+                'headerHtmlOptions' => array('style' => 'width:80px; text-align:center;'),
+            ),
 
             array(
                 'name'=>'FechaCreacion',
-                'value'=>"Yii::app()->dateFormatter->formatDateTime(\$data->FechaCreacion, 'medium')",
+                'value'=>"Yii::app()->dateFormatter->formatDateTime(\$data->FechaCreacion, 'medium','')",
+                'headerHtmlOptions' => array('style' => 'width:100px'),
+            ),
+            'Empresa',
+            array(
+                'class' => 'booster.widgets.TbToggleOneColumn',
+                'toggleAction' => $controlador.'/toggle',
+                'name' => 'Estado_Facturacion',
+                'headerHtmlOptions' => array('style' => 'width:150px;text-align: center;'),
+                'checkedIcon' => 'check-square-o',
+                'uncheckedIcon' => 'square-o',
+                'htmlOptions' => array('id' => 'testing'),
+                'checkedButtonLabel' => 'No se Puede deshacer',
+                'uncheckedButtonLabel' => 'Marcar Como Facturado  (No se puede deshacer)',
+                'url' => $this->createUrl($controlador.'/editableSaver'),
             ),
 
-            'cruge_user_Empr_id',
-            'Estado_Facturacion',
-            'OpcionesPago_id',
-            'cruge_user_Prov_id',
-            /* total */
-            'EstadoOC_id',
-            /*evaluacion*/
+
+            array(
+                'name' => 'opcionesPago.OpcionesPago_Nomb',
+                'header' => 'Forma de Pago'
+
+            ),
+            array(
+                'name' => 'EstadoOC_id',
+                'class' => 'booster.widgets.TbEditableColumn',
+                'headerHtmlOptions' => array('style' => 'min-width:50px;'),
+                'filter' => false,
+                'editable' => array(
+                    'type' => 'select',
+                    'url' => $this->createUrl($controlador.'/editableSaver'),
+                    'source' => CHtml::listData(Estadooc::model()->findAll('idEstadoOC<>:id', array(':id'=>1)),'idEstadoOC' ,'Nombre_Estado'),
+                    'name' => 'EstadoOC_id',
+                    'title' => 'Seleccionar Estado',
+                    'emptytext' => 'Pendiente',
+                )
+            ),
+            array (
+                'name'=>'Total',
+                'value' =>'"$ ".number_format ($data->Total,0,",","." )',
+            ),
+
+            array(
+                'class' => 'booster.widgets.TbEvalColumn',
+                'toggleAction' => $controlador.'/toggle',
+                'name' => 'eval',
+                'header' => 'Evaluación',
+                'headerHtmlOptions' => array('style' => 'width:150px;text-align: center;'),
+                //'htmlOptions' => array('id' => 'testing'),
+                'url' => $this->createUrl('/editableSaver'),
+            ),
+
+
+            array(
+                'htmlOptions' => array('style' => 'width:150px;text-align: center;'),
+                'class' => 'booster.widgets.TbButtonColumnAwesome',
+                'template' => '{view}',
+                'buttons' => array(
+                    'view' => array(
+                        'label' => 'Ver Orden',
+                        'icon'=> 'binoculars',
+                        'options' => array(
+                            'class' => 'btn btn-small',
+                        ),
+
+                    ) ,
+                )
+            ),
 
 
         ),
@@ -226,7 +223,7 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
 
 
 
-    ?>
+  //  $this->widget('CStarRating',array('name'=>'rating'));  ?>
 </div>
 
 <?php /*

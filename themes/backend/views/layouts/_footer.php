@@ -14,14 +14,15 @@
 
 
 <!-- END PAGE LEVEL PLUGINS -->
-<!-- BEGIN PAGE LEVEL SCRIPTS --
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/themes/global/scripts/metronic.js" type="text/javascript"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/themes/backend/layout/scripts/layout.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/themes/global/scripts/numeral.min.js" type="text/javascript"></script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/themes/global/scripts/star-rating.min.js" type="text/javascript"></script>
 <script>
     jQuery(document).ready(function() {
-      //  Layout.init() // init layout
+        Layout.init() // init layout
     });
 </script>
 <!-- END JAVASCRIPTS -->

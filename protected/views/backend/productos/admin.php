@@ -257,7 +257,6 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
                 'header' => 'Nombre Producto',
                 'class' => 'booster.widgets.TbEditableColumn',
                 'headerHtmlOptions' => array('style' => 'min-width:200px'),
-                'filter' => false,
                 'editable' => array(
                     'type' => 'text',
                     'url' => $this->createUrl($controlador.'/editableSaver'),
@@ -308,9 +307,10 @@ Yii::app()->clientScript->registerScript('bulk',"$(document).on('click','button.
             ),
 
             array(
-                'htmlOptions' => array('style' => 'width:150px;text-align: center;'),
+                'htmlOptions' => array('style' => 'width:40px;text-align: left;'),
                 'class' => 'booster.widgets.TbButtonColumnAwesome',
                // 'header' => '<i class="fa fa-fa-cubes"></i> ',
+                'headerHtmlOptions' => array('style' => 'width:40px'),
                 'template' => '{desc}',
                 'buttons' => array(
                         'desc' => array(

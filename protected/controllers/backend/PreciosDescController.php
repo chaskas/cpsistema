@@ -66,7 +66,16 @@ class PreciosDescController extends Controller
     {
         $model = PreciosDesc::model()->findByPk($id);
         if ($model === null)
-            throw new CHttpException(404, 'The requested page does not exist.');
+            throw new CHttpException(404, 'La pagina seleccionada no existe');
+        return $model;
+    }
+
+
+    public function loadProductoModel($id)
+    {
+        $model = Productos::model()->findByPk($id);
+        if ($model === null)
+            throw new CHttpException(404, 'La pagina seleccionada no existe');
         return $model;
     }
 
@@ -83,12 +92,7 @@ class PreciosDescController extends Controller
             $model->unsetAttributes();  // clear any default values
             if (isset($_GET['PreciosDesc']))
                 $model->attributes = $_GET['PreciosDesc'];
-
-            $user = Productos::model()->findByPk($_GET['pid']);
-            if (is_null($user)) {
-                $this->render('error', array());
-                Yii::app()->end();
-            }
+            $user = $this->loadProductoModel($_GET['pid']);
             if ($user->cruge_user_Prov_id == Yii::app()->user->id) {
 
                 $model = new PreciosDesc;
@@ -121,15 +125,13 @@ class PreciosDescController extends Controller
                 ));
 
 
-
             } else {
-                $this->render('error', array());
-                Yii::app()->end();
+                throw new CHttpException(500, "Disculpe usted no esta autorizado a realizar esta acción");
             }
 
 
         } else {
-            $this->render('error', array());
+            throw new CHttpException(404, 'La pagina seleccionada no existe');
         }
 
     }
@@ -142,43 +144,34 @@ class PreciosDescController extends Controller
     public function actionUpdate($id)
     {
 
-
-        $model = $this->loadModel($id);
-        $model->FechaIni = date("d/m/Y H:i");
-        $user = Productos::model()->findByPk($model->Productos_id);
-        if ($user->cruge_user_Prov_id == Yii::app()->user->id) {
-
 // Uncomment the following line if AJAX validation is needed
 // $this->performAjaxValidation($model);
 
-
-
-
-        if (isset($_POST['PreciosDesc'])) {
-            $model->attributes = $_POST['PreciosDesc'];
-
-            if ($model->TipoDesc_id == 2){
-                $fechas = explode(" - ",$_POST['PreciosDesc']['rango']);
-                $dateStringIn = str_replace('/', '-', $fechas[0]);
-                $dateStringFn = str_replace('/', '-', @$fechas[1]);
-                $model->FechaIni =  date("Y-m-d H:i:s", strtotime($dateStringIn));
-                $model->FechaFin =  date("Y-m-d H:i:s", strtotime($dateStringFn));
-            } else {
-                $model->FechaIni = date("d/m/Y H:i");
-                $model->FechaFin = $model->FechaIni;
-                $model->CantMax = $model->CantMin;
+        $model = $this->loadModel($id);
+        $model->FechaIni = date("d/m/Y H:i");
+        $user = $this->loadProductoModel($model->Productos_id);
+        if ($user->cruge_user_Prov_id == Yii::app()->user->id) {
+            if (isset($_POST['PreciosDesc'])) {
+                $model->attributes = $_POST['PreciosDesc'];
+                if ($model->TipoDesc_id == 2) {
+                    $fechas = explode(" - ", $_POST['PreciosDesc']['rango']);
+                    $dateStringIn = str_replace('/', '-', $fechas[0]);
+                    $dateStringFn = str_replace('/', '-', @$fechas[1]);
+                    $model->FechaIni = date("Y-m-d H:i:s", strtotime($dateStringIn));
+                    $model->FechaFin = date("Y-m-d H:i:s", strtotime($dateStringFn));
+                } else {
+                    $model->FechaIni = date("d/m/Y H:i");
+                    $model->FechaFin = $model->FechaIni;
+                    $model->CantMax = $model->CantMin;
+                }
+                if ($model->save())
+                    $this->redirect(array('index', 'pid' => $model->Productos_id));
             }
-
-            if ($model->save())
-                $this->redirect(array('index', 'pid' => $model->Productos_id));
-        }
-
-        $this->render('update', array(
-            'model' => $model,
-        ));
-    }     else {
-            $this->render('error', array());
-            Yii::app()->end();
+            $this->render('update', array(
+                'model' => $model,
+            ));
+        } else {
+            throw new CHttpException(404, 'La pagina seleccionada no existe');
         }
 }
     /**
@@ -186,7 +179,7 @@ class PreciosDescController extends Controller
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id)
+/*    public function actionDelete($id)
     {
         if (Yii::app()->request->isPostRequest) {
 // we only allow deletion via POST request
@@ -197,7 +190,7 @@ class PreciosDescController extends Controller
                 $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
         } else
             throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
-    }
+    }*/
 
     /**
      * Lists all models.
@@ -210,28 +203,19 @@ class PreciosDescController extends Controller
             $model->unsetAttributes();  // clear any default values
             if (isset($_GET['PreciosDesc']))
                 $model->attributes = $_GET['PreciosDesc'];
-            $user = Productos::model()->findByPk($_GET['pid']);
 
-            if (is_null($user)) {
-                $this->render('error', array());
-                Yii::app()->end();
-            }
-
-
-                if ($user->cruge_user_Prov_id == Yii::app()->user->id) {
-                    $model->Productos_id = $_GET['pid'];
-                    $this->render('admin', array(
+            $user = $this->loadProductoModel($_GET['pid']);
+            if ($user->cruge_user_Prov_id == Yii::app()->user->id) {
+                $model->Productos_id = $_GET['pid'];
+                $this->render('admin', array(
                         'model' => $model,
                     )
-                    );
-                } else {
-                    $this->render('error', array());
-                    Yii::app()->end();
-                }
-
-
+                );
+            } else {
+                throw new CHttpException(500, "Disculpe usted no esta autorizado a ver este elemento");
+            }
         } else {
-            $this->render('error', array());
+            throw new CHttpException(404, 'La pagina seleccionada no existe');
         }
     }
 
@@ -286,11 +270,9 @@ class PreciosDescController extends Controller
     public function actionBorrarChecked(){
                 if(Yii::app()->request->getIsAjaxRequest())
                 {
-
                     if (isset($_POST['ids'])) :
                         $checkedIDs = explode(",",$_POST['ids']);
                     endif;
-
                     foreach($checkedIDs as $id){
                         $prod=PreciosDesc::model()->findByPk($id);
                         $prod->Borrado=1;
@@ -302,11 +284,9 @@ class PreciosDescController extends Controller
     public function actionPublicarChecked(){
                 if(Yii::app()->request->getIsAjaxRequest())
                 {
-
                     if (isset($_POST['ids'])) :
                         $checkedIDs = explode(",",$_POST['ids']);
                     endif;
-
                     foreach($checkedIDs as $id){
                         $prod=PreciosDesc::model()->findByPk($id);
                         $prod->Publicado=1;

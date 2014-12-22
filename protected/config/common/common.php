@@ -11,6 +11,7 @@ return array(
         'application.helpers.*',
         'application.modules.cruge.components.*',
         'application.modules.cruge.extensions.crugemailer.*',
+
       /* 'bootstrap.helpers.TbHtml',
         'bootstrap.helpers.TbArray',
         'bootstrap.behaviors.TbWidget',
@@ -52,8 +53,8 @@ return array(
 
                  // NO OLVIDES PONER EN FALSE TRAS INSTALAR
                  'debug'=>true,
-                 'rbacSetupEnabled'=>true,
-                 'allowUserAlways'=>false,
+                 'rbacSetupEnabled'=>false,
+                 'allowUserAlways'=>true,
 
                 // MIENTRAS INSTALAS..PONLO EN: false
                 // lee mas abajo respecto a 'Encriptando las claves'

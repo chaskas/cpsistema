@@ -32,7 +32,7 @@ class OrdencompraController extends Controller
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update'),
+                'actions' => array('create', 'update','toggle','EditableSaver'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -51,9 +51,14 @@ class OrdencompraController extends Controller
      */
     public function actionView($id)
     {
-        $this->render('view', array(
-            'model' => $this->loadModel($id),
-        ));
+        $model = $this->loadModel($id);
+        if( $model->cruge_user_Prov_id == Yii::app()->user->id){
+            $this->render('view', array(
+                'model' => $model
+            ));
+        }else{
+            throw new CHttpException(500,"Disculpe usted no esta autorizado a ver este elemento");
+        }
     }
 
     /**
@@ -65,7 +70,7 @@ class OrdencompraController extends Controller
     {
         $model = Ordencompra::model()->findByPk($id);
         if ($model === null)
-            throw new CHttpException(404, 'The requested page does not exist.');
+            throw new CHttpException(404, 'La pagina seleccionada no existe');
         return $model;
     }
 
@@ -99,19 +104,24 @@ $this->render('create', array(
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
-
+        if ($model->cruge_user_Prov_id == Yii::app()->user->id) {
 // Uncomment the following line if AJAX validation is needed
 // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Ordencompra'])) {
-            $model->attributes = $_POST['Ordencompra'];
-            if ($model->save())
-                $this->redirect(array('view', 'id' => $model->idOrdenCompra));
-        }
+            if (isset($_POST['Ordencompra'])) {
+                $model->attributes = $_POST['Ordencompra'];
+                if ($model->save())
+                    $this->redirect(array('view', 'id' => $model->idOrdenCompra));
+            }
+            $this->render('update', array(
+                'model' => $model,
+            ));
 
-        $this->render('update', array(
-            'model' => $model,
-        ));
+        } else {
+
+            throw new CHttpException(500, "Disculpe usted no esta autorizado a realizar esta acción");
+
+        }
     }
 
     /**
@@ -139,10 +149,10 @@ $this->render('create', array(
     {
         $model = new Ordencompra('search');
         $model->unsetAttributes();  // clear any default values
-        $model->cruge_user_Prov_id = Yii::app()->user->id;
         if (isset($_GET['Ordencompra']))
             $model->attributes = $_GET['Ordencompra'];
 
+        $model->cruge_user_Prov_id = Yii::app()->user->id;
         $this->render('admin', array(
             'model' => $model,
         ));
@@ -181,11 +191,20 @@ $this->render('create', array(
     {
         Yii::import('application.extensions.booster.components.TbEditableSaver');
         $es = new TbEditableSaver('Ordencompra');
-        $es->onBeforeUpdate = function($event) {
-            $event->sender->setAttribute('Actualizado', date('Y-m-d H:i:s'));
-        };
         $es->update();
     }
+
+
+    public function actions()
+    {
+        return array(
+            'toggle' => array(
+                'class'=>'booster.actions.TbToggleAction',
+                'modelName' => 'Ordencompra',
+            )
+        );
+    }
+
 
 
 
